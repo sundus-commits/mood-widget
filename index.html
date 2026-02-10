@@ -18,15 +18,11 @@
 <body>
   <div class="card">
     <p class="title">⭐ How was your mood today?</p>
-  
     <div class="stars" id="stars"></div>
-    
   </div>
-
   <script>
     const key = "mood_" + new Date().toISOString().slice(0,10);
     const starsEl = document.getElementById("stars");
-    const statusEl = document.getElementById("status");
     const options = [1,2,3,4,5];
 
     function render(){
@@ -39,7 +35,6 @@
         b.onclick=()=>{ localStorage.setItem(key,String(n)); render(); };
         starsEl.appendChild(b);
       });
-      statusEl.textContent = saved ? ("Gespeichert: " + "⭐".repeat(saved)) : "Noch nicht gesetzt";
     }
     render();
   </script>
