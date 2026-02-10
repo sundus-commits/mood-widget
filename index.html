@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mood Rating</title>
+  <style>
+    body{margin:0;background:transparent;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:#e8eaf0;display:flex;align-items:center;justify-content:center;min-height:100vh}
+    .card{background:#151923;border:1px solid #2a3142;border-radius:14px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.25);width:min(520px,100%)}
+    .title{font-size:14px;font-weight:600;margin:0 0 6px}
+    .sub{font-size:12px;color:#a8afc1;margin:0 0 10px}
+    .stars{display:flex;gap:8px;flex-wrap:wrap}
+    .star{border:1px solid #2a3142;background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;font-size:18px;cursor:pointer}
+    .star.active{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45)}
+    .status{font-size:12px;color:#a8afc1;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="title">⭐ Wie war deine Stimmung heute?</p>
+    <p class="sub">1 Klick – gespeichert für heute</p>
+    <div class="stars" id="stars"></div>
+    <div class="status" id="status">Noch nicht gesetzt</div>
+  </div>
+
+  <script>
+    const key = "mood_" + new Date().toISOString().slice(0,10);
+    const starsEl = document.getElementById("stars");
+    const statusEl = document.getElementById("status");
+    const options = [1,2,3,4,5];
+
+    function render(){
+      starsEl.innerHTML="";
+      const saved = localStorage.getItem(key);
+      options.forEach(n=>{
+        const b=document.createElement("button");
+        b.className="star"+(String(n)===saved?" active":"");
+        b.textContent="⭐".repeat(n);
+        b.onclick=()=>{ localStorage.setItem(key,String(n)); render(); };
+        starsEl.appendChild(b);
+      });
+      statusEl.textContent = saved ? ("Gespeichert: " + "⭐".repeat(saved)) : "Noch nicht gesetzt";
+    }
+    render();
+  </script>
+</body>
+</html>
